@@ -7,7 +7,8 @@ create table Customer(
 	 LastName nvarchar(40),
 	 City  nvarchar(40),
 	 Country nvarchar(40),
-	 Phone nvarchar(40)
+	 Phone nvarchar(40),
+	 FaxNumber int
 );
 go
 select *from Customer;
@@ -18,7 +19,9 @@ create table Orders(
 	 OrderDate datetime not null,
 	 OrderNumber nvarchar(40),
 	 CustomerId  int FOREIGN KEY REFERENCES Customer(Id),
-	 TotalAmount decimal(12,2)
+	 TotalAmount decimal(12,2),
+	 ShippingDate datetime,
+	 ShippingName nvarchar(30)
 	
 );
 
@@ -35,24 +38,39 @@ create table Product(
      Id int PRIMARY KEY,
 	 ProductName nvarchar(50),
 	 UnitPrice decimal(12,2),
-	 Package nvarchar(30)
+	 Package nvarchar(30),
+	 TotalPrice decimal(12,2)
 );
+
+CREATE TABLE Employee  
+(  
+         EmployeeID int,  
+         FirstName nvarchar(255),  
+         LastName nvarchar(255),  
+         Email nvarchar(255),  
+         AddressLine nvarchar(255),  
+         City nvarchar(255),
+         ManagerName nvarchar(50),
+         DateOfJoining date
+);  
 
 ----------------------------------------------2---------------------------------------------------------------------------------------
 
-INSERT INTO Customer(Id,FirstName,LastName,City,Country,Phone)
+INSERT INTO Customer(Id,FirstName,LastName,City,Country,Phone,FaxNumber)
 VALUES
-       (1, 'Latha','Pogula', 'Hyderabad', 'India', '7731892411'),
-       (2, 'Nandini', 'Kanuguntla', 'jaggaiahpet', 'America', '9876543210'),
-       (3, 'Aradhya', 'Adhya', 'Khammam', 'londan', '9128374560')
+       (1, 'Latha','Pogula', 'Hyderabad', 'India', '7731892411',9398),
+       (2, 'Nandini', 'Kanuguntla', 'jaggaiahpet', 'America', '9876543210',8765),
+       (3, 'Aradhya', 'Adhya', 'Khammam', 'londan', '9128374560',8654),
+       (4, 'Vaishnavi','Pogula','Hyderabad','Germany','7503652967',2435),
+       (5, 'Puneeth','Pogula','Hyderabad','France','9652529757',7654)
 ;
 select *from Customer;
 go
 
-Insert into Orders(Id,OrderDate,OrderNumber,CustomerId,TotalAmount)
-VALUES (1001,17/02/2020,201,1,5000),
-	(1002,12/02/2020,202,2,4500),
-	(1003,15/03/2020,203,3,7000)
+Insert into Orders(Id,OrderDate,OrderNumber,CustomerId,TotalAmount,ShippingDate,ShippingName)
+VALUES (1001,17/02/2020,201,1,5000,01/03/2020,'La corned' ),
+	(1002,12/02/2020,202,2,4500,09/04/2020,'Clothes'),
+	(1003,15/03/2020,203,3,7000,29/03/2020,'Books')
 	
 ;
 Insert into OrderItem(Id,OrderId,ProductId,UnitPrice,Quantity)
@@ -62,15 +80,19 @@ VALUES(300,1003,505,788.02,10),
 		
 ;
 
-Insert into Product(Id,ProductName,UnitPrice,Package)
-VALUES(500,'P1',600,'YES'),
-	(501,'P2',550,'NO'),
-	(502,'P3',1000.00,'YES'),
-	(503,'P4',899,'YES'),
-	(504,'P5',188.56,'YES'),
-	(505,'P6',699,'NO')
+Insert into Product(Id,ProductName,UnitPrice,Package,TotalPrice)
+VALUES(500,'ExoticLiquids',600,'YES',999),
+	(501,'Seafood',550,'NO',599),
+	(502,'Chai',1000.00,'YES',1599),
+	(503,'Coffee',899,'YES',199),
+	(504,'Seafood',188.56,'YES',2999),
+	(505,'Chai',699,'NO',1500)
 ;
-go
+
+INSERT INTO Employee(EmployeeID,FirstName,LastName,Email,AddressLine,City,ManagerName,DateOfJoining)
+VALUES(901,'Nalini','Bellamkonda','nalini@gmail.com', 'Khammam','Hyderabad','Naveen',2020-03-02),
+      (902,'Naveen','Bellamkonda','naveen@gmail.com','Kodad','Suryapet','Aradhya',2020-09-03),
+      (903,'Srinivas','Pogula','srinivas@gmail.com', 'medepalli','vizag','Latha',2020-01-01)
 
 --------------------------------------------------3--------------------------------------------------------------------------------------
 
